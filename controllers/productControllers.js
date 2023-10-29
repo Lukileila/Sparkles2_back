@@ -1,6 +1,9 @@
+const pool = require('../db/sqlClient');
+
 const getAllProducts = async (req,res) => {
     try{
-        return resizeBy.json({})
+        const allUsers = await pool.query('SELECT * FROM "products";')
+        return res.json(allUsers);
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message});
@@ -9,14 +12,11 @@ const getAllProducts = async (req,res) => {
 
 const getProduct = async (req,res) => {
     try{
-        return resizeBy.json({})
+        return res.json({})
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message});
     }
 };
-
-
-
 
 module.exports = {getAllProducts, getProduct};
