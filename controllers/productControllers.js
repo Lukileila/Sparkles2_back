@@ -2,8 +2,8 @@ const pool = require('../db/sqlClient');
 
 const getAllProducts = async (req,res) => {
     try{
-        const allUsers = await pool.query('SELECT * FROM "products";')
-        return res.json(allUsers);
+        const {rows} = await pool.query('SELECT * FROM "products";')
+        return res.json(rows);
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message});
@@ -12,11 +12,14 @@ const getAllProducts = async (req,res) => {
 
 const getProduct = async (req,res) => {
     try{
-        return res.json({})
+        const {productId}=req.params;
+        const singleProduct = await pool.query(`SELECT * FROM products WHERE \"productID\"=$1`,[productId])
+        return res.json(singleProduct);
     } catch (error) {
         console.log(error)
         return res.status(500).json({ error: error.message});
     }
 };
+
 
 module.exports = {getAllProducts, getProduct};
