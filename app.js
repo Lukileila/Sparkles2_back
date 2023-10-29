@@ -3,19 +3,10 @@ const app = express();
 const port = process.env.PORT || 3000;
 
 app
-.get('/', (req,res) => {
-    res.send('x')
-});
-.post()
-.put()
-.delete();
+.get('/product/:productId', (req,res) => {
+    const {productId} = req.params;
+    res.send(`Requested productId: ${productId}`)
+})
+;
 
-
-
-
-
-
-
-
-
-app.listen(port, () => console.log('Example app listening on ${port}'))
+app.listen(port, () => console.log(`Example app listening on ${port}`));
