@@ -10,16 +10,20 @@ const getAllProducts = async (req,res) => {
     }
 };
 
-const getProduct = async (req,res) => {
-    try{
-        const {productId}=req.params;
-        const singleProduct = await pool.query(`SELECT * FROM products WHERE \"productID\"=$1`,[productId])
-        return res.json(singleProduct);
+const getSingleProduct = async (req, res) => {
+    try {
+        const { productId } = req.params;
+
+        const { rows } = await pool.query('SELECT * FROM products WHERE "productID" = $1;', [productId]);
+        if (!rows.length) throw new Error('Product not found');
+    
+        return res.json(rows[0]);
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({ error: error.message});
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
 
 
-module.exports = {getAllProducts, getProduct};
+
+module.exports = {getAllProducts, getSingleProduct};
